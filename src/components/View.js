@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Article from './Article';
+import AxiosWithAuth from './AxiosWithAuth';
 import EditForm from './EditForm';
 
 const View = (props) => {
@@ -9,10 +11,29 @@ const View = (props) => {
     const [editing, setEditing] = useState(false);
     const [editId, setEditId] = useState();
 
+    useEffect(() => {
+        AxiosWithAuth()
+        .get('/articles')
+        .then(resp => {
+            setArticles(resp.data)
+        }).catch(err => console.error(err))
+    }, [])
+
     const handleDelete = (id) => {
+         AxiosWithAuth()
+         .delete(`http://localhost:5000/api/articles/${id}`)
+         .then(resp => {
+             setArticles(resp.data)
+         }).catch(err => console.error(err))
     }
 
     const handleEdit = (article) => {
+        AxiosWithAuth()
+        .put(`http://localhost:5000/api/articles/${article.id}`, article)
+        .then(resp => {
+            setArticles(resp.data)
+            setEditing(false)
+        }).catch(err => console.error(err))
     }
 
     const handleEditSelect = (id)=> {

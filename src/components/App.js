@@ -1,20 +1,36 @@
-import React from 'react';
-import { Route } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Route, Switch } from "react-router-dom";
 import styled from 'styled-components';
 
 import Header from './Header';
 import BloomHeader from './BloomHeader';
 import Login from './Login';
+import Logout from './Logout';
+import PrivateRoute from './PrivateRoute';
+import NotFound from './NotFound'
+import View from './View'
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      setIsLoggedIn(true)
+    }
+  }, [])
+
   return (
     <AppContainer>
       <BloomHeader/>
-      <Header/>
+      <Header isLoggedIn={isLoggedIn}/>
       <RouteContainer>
-        <Route exact path="/">
-          <Login/>
-        </Route>          
+        <Switch>
+          <Route exact path="/" render={() => <Login setIsLoggedIn={setIsLoggedIn}/>} />      
+          <Route exact path="/login" render={() => <Login setIsLoggedIn={setIsLoggedIn} />} />    
+          {isLoggedIn && <PrivateRoute exact path="/logout" render={() => <Logout setIsLoggedIn={setIsLoggedIn}/>}/>}
+          {isLoggedIn && <PrivateRoute exact path="/view" render={() => <View />} />}
+          <Route render={() => <NotFound /> } /> 
+        </Switch>       
       </RouteContainer>
     </AppContainer>
   )

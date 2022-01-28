@@ -1,12 +1,52 @@
-import React from 'react';
+import axios from 'axios';
+import React, {useState} from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom'
+const Login = ({setIsLoggedIn}) => {
+    const {push} = useHistory()
 
-const Login = () => {
+    const [credentials, setCredentials] = useState({
+        username: '',
+        password: ''
+    })
+
+    const [error, setError] = useState(false)
+
+    const handleCredentialInput = (e) => {
+        setCredentials({
+            ...credentials,
+            [e.target.name]: e.target.value
+        })
+        setError(false)
+    }
+    const handleLogin = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:5000/api/login', credentials)
+        .then(resp => {
+            localStorage.setItem('token', resp.data.token)
+            localStorage.setItem('username', resp.data.username)
+            localStorage.setItem('role', resp.data.role)
+            setIsLoggedIn(true)
+            push('/view')
+        }).catch(err => {
+            console.error(err)
+            setError(true)
+        })
+    }
     
     return(<ComponentContainer>
         <ModalContainer>
             <h1>Welcome to Blogger Pro</h1>
             <h2>Please enter your account information.</h2>
+            <form onSubmit={handleLogin}>
+                <label name='Username'>UserName</label>
+                <input onChange={handleCredentialInput} name='username' value={credentials.username} id='username' />
+                <label name='Password'>Password</label>
+                <input onChange={handleCredentialInput} name='password' value={credentials.password} id='password' />
+                <br />
+                {error && <p id='error'>Invalid username or password</p>}
+                <button>Log in!</button>
+            </form>
         </ModalContainer>
     </ComponentContainer>);
 }

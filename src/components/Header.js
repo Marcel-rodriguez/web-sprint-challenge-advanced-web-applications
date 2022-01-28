@@ -2,14 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Header = () => {
+const Header = ({isLoggedIn}) => {
     return(
         <HeaderStyle>
             <p>Blogger Pro</p>
+            {isLoggedIn && <p>Welcome {localStorage.getItem('username')}!</p>}
             <MenuStyle>
-                <li><Link to="/">Login</Link></li>
-                <li><Link to="view">View</Link></li>
-                <li><Link to="logout">Logout</Link></li>
+                <li>{!isLoggedIn && <Link to="/">Login</Link>}</li>
+                <li>{isLoggedIn && <Link to="/view">View</Link>}</li>
+                <li>{isLoggedIn && <Link to="/logout">Logout</Link>}</li>
             </MenuStyle>
         </HeaderStyle>
     );
