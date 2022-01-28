@@ -24,8 +24,8 @@ const resetArticles = () => {
       body: "The Pennsylvania State System of Higher Education has said its 14 public universities, including West Chester and Cheyney, don’t have the authority to require a vaccine and would need legislation. Neither Pennsylvania State University nor Temple University, which are state-related, have required the vaccines either."
   },
   {
-      headline: "A tropical depression could form in the next few days, forecasters say",
       id: nanoid(5),
+      headline: "A tropical depression could form in the next few days, forecasters say",
       createdOn: moment().subtract(Math.random()*10, "days").format(),
       author: "Alex Harris",
       image: 171,

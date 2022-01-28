@@ -24,7 +24,7 @@ const EditForm = (props)=> {
                     author: resp.data.author,
                     summary: resp.data.summary,
                     id: resp.data.id,
-                    body: resp.data.body
+                    body: resp.data.body,
                 })
             }).catch(err => console.error(err))
     }, [])
