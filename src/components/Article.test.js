@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import MutationObserver from 'mutationobserver-shim';
 
 import Article from './Article';
+import { render } from 'react-dom';
 
 test('renders component without errors', ()=> {
 });

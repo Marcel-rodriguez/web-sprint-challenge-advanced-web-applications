@@ -23,11 +23,11 @@ const Login = ({setIsLoggedIn}) => {
         e.preventDefault()
         axios.post('http://localhost:5000/api/login', credentials)
         .then(resp => {
-            localStorage.setItem('token', resp.data.token)
-            localStorage.setItem('username', resp.data.username)
-            localStorage.setItem('role', resp.data.role)
-            setIsLoggedIn(true)
-            push('/view')
+                localStorage.setItem('token', resp.data.token)
+                localStorage.setItem('username', resp.data.username)
+                localStorage.setItem('role', resp.data.role)
+                setIsLoggedIn(true)
+                push('/view')
         }).catch(err => {
             console.error(err)
             setError(true)
@@ -45,7 +45,7 @@ const Login = ({setIsLoggedIn}) => {
                 <input onChange={handleCredentialInput} name='password' value={credentials.password} id='password' />
                 <br />
                 {error && <p id='error'>Invalid username or password</p>}
-                <button>Log in!</button>
+                <button id='submit'>Log in!</button>
             </form>
         </ModalContainer>
     </ComponentContainer>);
